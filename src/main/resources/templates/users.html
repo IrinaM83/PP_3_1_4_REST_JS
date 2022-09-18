@@ -20,12 +20,12 @@
             <td><p th:text="${user.getEmail()}"></p></td>
 
             <td>
-                <form th:method="GET" th:action="@{/users/edit/{id}(id=${user.getId()})}">
+                <form th:method="GET" th:action="@{/users/admin/edit/{id}(id=${user.getId()})}">
                     <input type="submit" value="Edit"/>
                 </form>
 
 
-                <form th:method="DELETE" th:action="@{/users/delete/{id}(id=${user.getId()})}">
+                <form th:method="DELETE" th:action="@{/users/admin/delete/{id}(id=${user.getId()})}">
                     <input type="submit" value="Delete"/>
                 </form>
             </td>
@@ -36,7 +36,7 @@
 <br/>
 <hr/>
 
-<form th:method="GET" th:action="@{/users/new}">
+<form th:method="GET" th:action="@{/users/admin/new}">
     <input type="submit" value="Add user"/>
 </form>
 </body>
