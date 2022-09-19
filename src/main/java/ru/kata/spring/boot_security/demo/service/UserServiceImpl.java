@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByName(String username) { return userDao.getByName(username); }
+
+    @Override
     public void save(User user) {
         userDao.save(user);
     }

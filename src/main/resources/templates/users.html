@@ -14,18 +14,22 @@
             <th>EMAIL</th>
             <th>ACTION</th>
         </tr>
-        <tr th:each="user : ${user}">
-            <td><p th:text="${user.getId()}"></p></td>
-            <td><p th:text="${user.getUsername()}"></p></td>
-            <td><p th:text="${user.getEmail()}"></p></td>
+        <tr th:each="userss : ${user}">
+
+            <td><p th:text="${userss.getId()}"></p></td>
+
+            <td><a th:href="@{users/user/{id}(id=${userss.getId()})}"><p th:text="${userss.getUsername()}"></p>
+            </a></td>
+
+            <td><p th:text="${userss.getEmail()}"></p></td>
 
             <td>
-                <form th:method="GET" th:action="@{/users/admin/edit/{id}(id=${user.getId()})}">
+                <form th:method="GET" th:action="@{/users/admin/edit/{id}(id=${userss.getId()})}">
                     <input type="submit" value="Edit"/>
                 </form>
 
 
-                <form th:method="DELETE" th:action="@{/users/admin/delete/{id}(id=${user.getId()})}">
+                <form th:method="DELETE" th:action="@{/users/admin/delete/{id}(id=${userss.getId()})}">
                     <input type="submit" value="Delete"/>
                 </form>
             </td>
@@ -38,6 +42,10 @@
 
 <form th:method="GET" th:action="@{/users/admin/new}">
     <input type="submit" value="Add user"/>
+</form>
+<br/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="LOGOUT"/>
 </form>
 </body>
 </html>
