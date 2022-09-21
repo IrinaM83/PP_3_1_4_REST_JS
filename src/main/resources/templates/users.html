@@ -12,24 +12,27 @@
             <th>ID</th>
             <th>NAME</th>
             <th>EMAIL</th>
+            <th>ROLE</th>
             <th>ACTION</th>
         </tr>
         <tr th:each="userss : ${user}">
 
             <td><p th:text="${userss.getId()}"></p></td>
 
-            <td><a th:href="@{users/user/{id}(id=${userss.getId()})}"><p th:text="${userss.getUsername()}"></p>
+            <td><a th:href="@{users/user_info/{id}(id=${userss.getId()})}"><p th:text="${userss.getUsername()}"></p>
             </a></td>
 
             <td><p th:text="${userss.getEmail()}"></p></td>
 
+            <td><p th:text="${userss.getStringUserAuthorities()}"></p></td>
+
             <td>
-                <form th:method="GET" th:action="@{/users/admin/edit/{id}(id=${userss.getId()})}">
+                <form th:method="GET" th:action="@{/admin/edit/{id}(id=${userss.getId()})}">
                     <input type="submit" value="Edit"/>
                 </form>
 
 
-                <form th:method="DELETE" th:action="@{/users/admin/delete/{id}(id=${userss.getId()})}">
+                <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${userss.getId()})}">
                     <input type="submit" value="Delete"/>
                 </form>
             </td>
@@ -40,7 +43,7 @@
 <br/>
 <hr/>
 
-<form th:method="GET" th:action="@{/users/admin/new}">
+<form th:method="GET" th:action="@{/admin/new}">
     <input type="submit" value="Add user"/>
 </form>
 <br/>

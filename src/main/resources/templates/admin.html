@@ -5,15 +5,17 @@
 </head>
 <body>
 <h1>Admin, welcome spring boot security page!</h1>
-<table th:border="1">
+<table th:border="1", th:object="${user}">
     <tr>
         <th>ID</th>
         <th>NAME</th>
         <th>EMAIL</th>
+        <th>ROLE</th>
     </tr>
-        <td><p th:text="${admin.getId()}">VALUE</p></td>
-        <td><p th:text="${admin.getUsername()}">VALUE</p></td>
-        <td><p th:text="${admin.getEmail()}">VALUE</p></td>
+    <td th:text="*{getId()}"></td>
+    <td><p th:text="*{getUsername()}">VALUE</p></td>
+    <td><p th:text="*{getEmail()}">VALUE</p></td>
+    <td><p th:text="*{getStringUserAuthorities()}">VALUE</p></td>
     </tr>
 
 </table>
