@@ -72,10 +72,7 @@
                         <tr th:each="userss : ${users}">
 
                             <td th:text="${userss.getId()}"></td>
-
-                            <td><a th:href="@{users/user_info/{id}(id=${userss.getId()})}"><p
-                                    th:text="${userss.getUsername()}"></p>
-                            </a></td>
+                            <td th:text="${userss.getUsername()}"></td>
                             <td th:text="${userss.getLastName()}"></td>
                             <td th:text="${userss.getAge()}"></td>
                             <td th:text="${userss.getEmail()}"></td>
