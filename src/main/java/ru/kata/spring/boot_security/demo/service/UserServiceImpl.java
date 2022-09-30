@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(Long id) {
         return userDao.getById(id);
     }
 
@@ -43,17 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-        userDao.delete(user);
+    public void delete(Long id) {
+        userDao.delete(id);
     }
 
     @Override
-    public User findByUserName(String username) {
-        return userDao.findByUserName(username);
+    public User findUserByEmail(String email) {
+        return userDao.findUserByEmail(email);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.findByUserName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userDao.findUserByEmail(email);
     }
 }

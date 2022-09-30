@@ -13,10 +13,13 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String username;
 
+    private String lastName;
+
+    private int age;
     private String password;
 
     private String email;
@@ -30,9 +33,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String username) {
-        this.id = id;
+    public User(String username, String lastName, int age, String password, String email, Set<Role> roles) {
         this.username = username;
+        this.lastName = lastName;
+        this.age = age;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
     }
 
     public Set<Role> getRoles() {
@@ -43,11 +50,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,7 +97,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     public void setAuthorities(Set<Role> roleSet) {
@@ -112,6 +119,22 @@ public class User implements UserDetails {
             s.append(g);
         }
         return s.toString().replace("ROLE_", " ");
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override

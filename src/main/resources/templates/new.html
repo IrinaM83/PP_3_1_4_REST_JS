@@ -1,27 +1,133 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
+    <title>Admin panel</title>
 </head>
-<body>
 
-<form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
-    <label for="name">Enter name</label>
-    <input type="text" th:field="*{username}" id="name"/>
-    <br/>
-    <label for="email">Enter email</label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <br/>
-    <label for="password">Enter password</label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <br/>
-    <input type="submit" value="Create"/>
-</form>
+<nav class="navbar navbar-dark bg-dark">
+    <h7 class="navbar-brand" href="#"><a th:text="${user.getEmail()}"></a> with roles: <a
+            th:text="${user.getStringUserAuthorities()}"></a></h7>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" class="btn btn-dark" value="Logout"/>
+    </form>
+</nav>
 <br/>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="LOGOUT"/>
-</form>
-</body>
+<div class="row">
+    <!-- кнопки слева -->
+    <div class="col-3">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" th:href="@{/admin/users}" role="tab"
+               aria-controls="v-pills-home" aria-selected="true">Admin</a>
+            <a class="nav-link" th:href="@{/user}" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">User</a>
+        </div>
+    </div>
+    <!-- вкладки сверху -->
+
+
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent">
+
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+                <body>
+                <div class="container">
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <h2 class="card-title">Admin panel</h2>
+                            <div class="tab-content" id="tabContent">
+                            <ul class="nav nav-tabs">
+                                <a class="nav-link" th:href="@{/admin/users}" role="tab"
+                                   aria-controls="v-pills-profile" aria-selected="false">User table</a>
+                                    <a class="nav-link active" data-toggle="tab">New User</a>
+
+                            </ul>
+
+
+                                    <h4 class="card-headr">Add new user</h4>
+                                    <div class="card-body">
+                                    <form th:method="POST" th:action="@{/admin/users/new}" th:object="${user}">
+
+                                        <div class="mx-auto" style="width: 400px;">
+                                            <div class="text-center">
+
+                                                <div class="form-group">
+                                                    <label for="username"
+                                                           class="col-form-label font-weight-bold">First
+                                                        name</label>
+                                                    <input type="text" class="form-control" id="username"
+                                                           name="username" placeholder="First name"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="lastName"
+                                                           class="col-form-label font-weight-bold">Last
+                                                        name</label>
+                                                    <input type="text" class="form-control" id="lastName"
+                                                           name="lastName" placeholder="Last name"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="age"
+                                                           class="col-form-label font-weight-bold">Age</label>
+                                                    <input type="text" class="form-control" id="age" name="age" placeholder="Age"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email"
+                                                           class="col-form-label font-weight-bold">Email</label>
+                                                    <input type="text" class="form-control" id="email"
+                                                           name="email" placeholder="Email"/>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <label for="password"
+                                                           class="col-form-label font-weight-bold">Password</label>
+                                                    <input type="text" class="form-control"
+                                                           id="password" placeholder="Password"/>
+
+                                                    <label for="roles"><b>Role</b></label>
+
+                                                    <select multiple class="form-control" id="roles" name="roles" size="2" required>
+                                                        <option
+                                                                th:each="role: ${listRoles}"
+                                                                th:value="${role.name}"
+                                                                th:selected="${user.roles.contains(role)}">
+                                                        <th:block th:text="${role.name}">
+                                                        </th:block>
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+
+                                       <br>
+                                            <input type="submit" class="btn btn-success" value="Add new user"/>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="LOGOUT"/>
+                            </form>
+                        </div>-->
+                    </div>
+                </div>
+                </div>
+                </body>
+            </div>
+        </div>
+    </div>
+</div>
 </html>

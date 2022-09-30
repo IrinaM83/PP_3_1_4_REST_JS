@@ -7,13 +7,13 @@ import java.util.List;
 public interface UserDao {
     public List<User> printUsers();
 
-    public User getById(int id);
-
-    public User findByUserName(String username);
+    public User getById(Long id);
 
     public void save(User user);
 
     public void update(User user);
 
-    public void delete(User user);
+    public void delete(Long id);
+
+    public User findUserByEmail(String email);
 }
