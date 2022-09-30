@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.models.Role;
+import ru.kata.spring.boot_security.demo.models.User;
 
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -41,5 +43,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getById(Long id) {
         return roleDao.getById(id);
+    }
+    @Override
+    public void getUserRoles(User user) {
+        user.setRoles(user.getRoles().stream()
+                .map(role -> addRole(role.getName()))
+                .collect(Collectors.toSet()));
     }
 }

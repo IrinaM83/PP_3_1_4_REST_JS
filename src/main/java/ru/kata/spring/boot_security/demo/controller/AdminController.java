@@ -10,7 +10,6 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.websocket.server.PathParam;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,12 +31,6 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping("/users/user_info/{id}")
-    public String user(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        return "user_info";
-    }
-
     @GetMapping
     public String pageAdmin(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("users", userService.printUsers());
@@ -55,7 +48,7 @@ public class AdminController {
 
     @PostMapping("/users/new")
     public String create(@ModelAttribute("user") User user) {
-        getUserRoles(user);
+        roleService.getUserRoles(user);
         userService.save(user);
         return "redirect:/admin/users";
     }
@@ -70,7 +63,7 @@ public class AdminController {
     @PostMapping(value = "/users/edit")
     public String update(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("listRoles", roleService.printRole());
-        getUserRoles(user);
+        roleService.getUserRoles(user);
         userService.update(user);
         return "redirect:/admin/users";
     }
@@ -79,11 +72,5 @@ public class AdminController {
     public String delete(Long id) {
         userService.delete(id);
         return "redirect:/admin/users";
-    }
-
-    private void getUserRoles(User user) {
-        user.setRoles(user.getRoles().stream()
-                .map(role -> roleService.addRole(role.getName()))
-                .collect(Collectors.toSet()));
     }
 }
