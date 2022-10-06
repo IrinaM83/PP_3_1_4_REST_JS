@@ -1,36 +1,70 @@
 /**
  *
  */
+const url = "http://localhost:8080/admin/users/"
 
-$(document).ready(function () {
+const on = (element, event, selector, handler) => {
+    element.addEventListener(event, e => {
+        if (e.target.closest(selector)) {
+            handler(e)
+        }
+    })
+}
 
-    $('.table .eBtn').on('click', function (event) {
+const printUser = (data) => {
+    console.log(data);
+    if(data.length > 0) {
+        var temp = "";
+        data.forEach((u) => {
+            temp += "<tr>";
+            temp += "<td>" + u.id + "</td>";
+            temp += "<td>" + u.username + "</td>";
+            temp += "<td>" + u.lastName + "</td>";
+            temp += "<td>" + u.age + "</td>";
+            temp += "<td>" + u.email + "</td>";
+            temp += "<td>" + u.stringUserAuthorities + "</td>";
+            temp += "<td><a class='btn btn-primary eBtn' data-bs-toggle='modal' id='editUserBtn' data-bs-target='#editUser'>Edit</a></td>"
+            temp += "<td><a class='btn btn-danger dltBtn' data-bs-toggle = 'modal' id='deleteUserBtn' data-bs-target='#deleteUser'>Delete</a></td>"
+        })
+        document.getElementById("data").innerHTML = temp;
+    }
+}
 
-        event.preventDefault();
+fetch(url)
+    .then(res => res.json())
+    .then(data => printUser(data))
 
-        var href = $(this).attr('href');
 
-        $.get(href, function (users) {
-            $('.myForm #id').val(users.id);
-            $('.myForm #username').val(users.username);
-            $('.myForm #lastName').val(users.lastName);
-            $('.myForm #age').val(users.age);
-            $('.myForm #email').val(users.email);
-        });
-        $('.myForm #editModal').modal();
-    });
+//Edit
+let editId = null
+on(document, 'click', '#editUserBtn', e => {
+    editId= e.target.parentNode.parentNode.children[0].innerHTML
+    document.getElementById('editUserId').value = e.target.parentNode.parentNode.children[0].innerHTML
+    document.getElementById('editUsername').value = e.target.parentNode.parentNode.children[1].innerHTML
+    document.getElementById('editLastname').value = e.target.parentNode.parentNode.children[2].innerHTML
+    document.getElementById('editAge').value = e.target.parentNode.parentNode.children[3].innerHTML
+    document.getElementById('editEmail').value = e.target.parentNode.parentNode.children[4].innerHTML
+})
+const editUserForm = document.querySelector('#editUserForm')
 
-    $('table .dltBtn').on('click',function (event){
-        event.preventDefault();
-        var href = $(this).attr('href');
+editUserForm.addEventListener('submit', (e) => {
+    fetch(url + editId, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "username": document.getElementById('editUsername').value,
+            "surname": document.getElementById('editLastname').value,
+            "email": document.getElementById('editEmail').value,
+            "password": document.getElementById('editPassword').value,
+            "age": document.getElementById('editAge').value,
+            "rol": document.getElementById('editRoles').value + " "
+        })
 
-        $.get(href, function (user) {
-            $('.myFormDlt #idDlt').val(user.id);
-            $('.myFormDlt #usernameDlt').val(user.username);
-            $('.myFormDlt #lastNameDlt').val(user.lastName);
-            $('.myFormDlt #ageDlt').val(user.age);
-            $('.myFormDlt #emailDlt').val(user.email);
-        });
-        $('.myFormDlt #dltModal').modal();
-    });
-});
+    })
+        .then(res => res.json())
+        .then(data => printUser(data))
+        .catch((e) => console.error(e))
+
+})

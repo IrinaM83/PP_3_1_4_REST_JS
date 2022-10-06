@@ -13,7 +13,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
     <title>Admin panel</title>
 </head>
 <body>
@@ -68,8 +67,8 @@
                             <th>Delete</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr th:each="userss : ${users}">
+                        <tbody id="data">
+                        <!--<tr th:each="userss : ${users}">
 
                             <td th:text="${userss.getId()}"></td>
                             <td th:text="${userss.getUsername()}"></td>
@@ -86,21 +85,21 @@
                                    class="btn btn-danger dltBtn">Delete
                                 </a>
                             </td>
-                        </tr>
+                        </tr>-->
+
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <form method="POST" th:action="@{/admin/users/edit}">
-                <div class="myForm">
-                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-                         aria-labelledby="ModalLabel"
-                         aria-hidden="true">
-
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
+            <div class="modal fade" id="editUser" tabindex="-1" role="dialog"
+                 aria-labelledby="editModal"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <form id="editUserForm">
+                                <div class="myForm">
                                     <h5 class="modal-title" id="editModalLabel">Edit user</h5>
                                     <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
@@ -112,50 +111,51 @@
                                         <div class="text-center">
 
                                             <div class="form-group">
-                                                <label for="id"
+                                                <label for="editUserId"
                                                        class="col-form-label font-weight-bold">ID</label>
-                                                <input type="text" class="form-control" id="id" name="id"
+                                                <input type="text" class="form-control" id="editUserId" name="id"
                                                        value="" readonly/>
                                             </div>
                                             <div class="form-group">
-                                                <label for="username"
+                                                <label for="editUsername"
                                                        class="col-form-label font-weight-bold">First
                                                     name</label>
-                                                <input type="text" class="form-control" id="username"
+                                                <input type="text" class="form-control" id="editUsername"
                                                        name="username"
                                                        value=""/>
                                             </div>
                                             <div class="form-group">
-                                                <label for="lastName"
+                                                <label for="editLastname"
                                                        class="col-form-label font-weight-bold">Last
                                                     name</label>
-                                                <input type="text" class="form-control" id="lastName"
+                                                <input type="text" class="form-control" id="editLastname"
                                                        name="lastName"
                                                        value=""/>
                                             </div>
                                             <div class="form-group">
-                                                <label for="age"
+                                                <label for="editAge"
                                                        class="col-form-label font-weight-bold">Age</label>
-                                                <input type="text" class="form-control" id="age" name="age"
+                                                <input type="text" class="form-control" id="editAge" name="age"
                                                        value=""/>
                                             </div>
                                             <div class="form-group">
-                                                <label for="email"
+                                                <label for="editEmail"
                                                        class="col-form-label font-weight-bold">Email</label>
-                                                <input type="email" class="form-control" id="email"
+                                                <input type="email" class="form-control" id="editEmail"
                                                        name="email"
                                                        value=""/>
                                             </div>
                                             <div class="form-group">
 
-                                                <label for="password"
+                                                <label for="editPassword"
                                                        class="col-form-label font-weight-bold">Password</label>
                                                 <input type="password" class="form-control"
-                                                       id="password"/>
+                                                       id="editPassword"/>
 
                                                 <label class="form-group font-weight-bold"
-                                                       for="roles">Role</label>
-                                                <select multiple class="form-control" id="roles" name="roles" size="2"
+                                                       for="editRoles">Role</label>
+                                                <select multiple class="form-control" id="editRoles" name="roles"
+                                                        size="2"
                                                         required>
                                                     <option
                                                             th:each="role: ${allRoles}"
@@ -177,19 +177,19 @@
 
 
                                 </div>
+                            </form>
 
-
-                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
 
+
+            </div>
         </div>
 
-        <form method="POST" th:action="@{/admin/users/delete}">
+        <form method="POST" id="delUserForm" th:action="@{/admin/users/delete}">
             <div class="myFormDlt">
-                <div class="modal fade" id="dltModal" tabindex="-1" role="dialog"
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
                      aria-labelledby="ModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -237,8 +237,8 @@
                                                value="" readonly/>
                                     </div>
                                     <label class="form-group font-weight-bold"
-                                           for="roles">Role</label>
-                                    <select multiple class="form-control" name="roles" size="2"
+                                           for="delRoles">Role</label>
+                                    <select multiple class="form-control" name="roles" size="2" id="delRoles"
                                             required readonly>
                                         <option
                                                 th:each="role: ${allRoles}"
@@ -263,5 +263,9 @@
 
     </div>
 </div>
+
+<script type="text/javascript" src="../static/main.js" th:src="@{/main.js}">
+</script>
+
 </body>
 </html>
